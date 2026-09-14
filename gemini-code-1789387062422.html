@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity & Self-Expression — An Interactive Canvas</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- SOFT COLOR PALETTE --- */
+        :root {
+            --bg-main: #FAF7F2;          /* Soft Warm Cream */
+            --bg-card: #FFFFFF;          /* Pure White for cards */
+            --text-primary: #333634;     /* Deep Soft Slate */
+            --text-secondary: #6B706C;   /* Muted Sage Slate */
+            
+            --accent-sage: #D2DDD6;      /* Soft Sage Green */
+            --accent-rose: #F4E3E2;      /* Dusty Rose */
+            --accent-lavender: #E6E2EE;  /* Soft Lavender */
+            --accent-peach: #F9ECE4;     /* Soft Peach */
+            
+            --primary-accent: var(--accent-sage);
+            --border-color: #EAE5DE;     /* Subtle Warm Gray */
+        }
+
+        /* Dynamic Theme Palette Override */
+        body.theme-rose { --primary-accent: var(--accent-rose); }
+        body.theme-lavender { --primary-accent: var(--accent-lavender); }
+        body.theme-peach { --primary-accent: var(--accent-peach); }
+        body.theme-sage { --primary-accent: var(--accent-sage); }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background-color 0.4s ease;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            background: rgba(250, 247, 242, 0.92);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Theme Picker Dots */
+        .theme-picker {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 6px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .theme-dot:hover { transform: scale(1.2); }
+        .dot-sage { background-color: var(--accent-sage); }
+        .dot-rose { background-color: var(--accent-rose); }
+        .dot-lavender { background-color: var(--accent-lavender); }
+        .dot-peach { background-color: var(--accent-peach); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 1.5rem;
+            background: linear-gradient(180deg, var(--bg-main) 0%, var(--primary-accent) 100%);
+            transition: background 0.5s ease;
+        }
+
+        .hero-tag {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.15;
+            max-width: 850px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero-gallery-preview {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 2.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-img-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--bg-card);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-img-thumb:hover {
+            transform: scale(1.15) rotate(3deg);
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2.2rem;
+            border-radius: 50px;
+            background-color: var(--text-primary);
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid var(--text-primary);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--text-primary);
+            color: #FFFFFF;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 3.5rem auto;
+            font-size: 1.05rem;
+        }
+
+        /* --- CONTENT CARDS WITH IMAGES --- */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            height: 260px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card-img-wrapper:hover img {
+            transform: scale(1.06);
+        }
+
+        .img-badge {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .card-body {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-body h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-body p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .example-box {
+            background: var(--bg-main);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 3px solid var(--primary-accent);
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            margin-top: auto;
+        }
+
+        /* --- FACTORS SHAPING IDENTITY (INTERACTIVE PILLS) --- */
+        .factors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .factor-item {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 18px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .factor-item:hover {
+            background: var(--primary-accent);
+            transform: translateY(-3px);
+        }
+
+        .factor-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .factor-item p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- PAPAN REFLEKSI (INTERACTIVE STICKY BOARD) --- */
+        .board-section {
+            background-color: rgba(255, 255, 255, 0.6);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 5rem 1.5rem;
+        }
+
+        .note-creator {
+            background: var(--bg-card);
+            max-width: 650px;
+            margin: 0 auto 3rem auto;
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+
+        .note-creator h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .note-creator textarea {
+            width: 100%;
+            height: 90px;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem;
+            resize: none;
+            outline: none;
+            margin-bottom: 1rem;
+        }
+
+        .creator-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .color-selector {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .color-option {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .color-option:hover, .color-option.selected {
+            transform: scale(1.2);
+            border-color: var(--text-primary);
+        }
+
+        .author-input {
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            outline: none;
+            background: var(--bg-main);
+        }
+
+        /* Sticky Notes Grid */
+        .sticky-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.8rem;
+            margin-top: 2rem;
+        }
+
+        .sticky-note {
+            padding: 1.8rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .sticky-note:nth-child(odd) { transform: rotate(-1.5deg); }
+        .sticky-note:nth-child(even) { transform: rotate(1.5deg); }
+
+        .sticky-note:hover {
+            transform: scale(1.03) rotate(0deg) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            z-index: 5;
+        }
+
+        .note-bg-sage { background-color: var(--accent-sage); }
+        .note-bg-rose { background-color: var(--accent-rose); }
+        .note-bg-lavender { background-color: var(--accent-lavender); }
+        .note-bg-peach { background-color: var(--accent-peach); }
+
+        .note-content {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .note-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(0,0,0,0.06);
+            padding-top: 0.8rem;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .like-btn:hover { color: #E25555; transform: scale(1.1); }
+        .like-btn.liked { color: #E25555; font-weight: 600; }
+
+        /* --- JOURNAL SECTION --- */
+        .interactive-section {
+            background-color: var(--bg-card);
+            border-radius: 30px;
+            padding: 3.5rem 2rem;
+            text-align: center;
+            margin: 3rem 0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+
+        .prompt-box {
+            background: var(--bg-main);
+            max-width: 650px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px dashed var(--border-color);
+            min-height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prompt-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        .journal-box {
+            max-width: 650px;
+            margin: 1.5rem auto 0 auto;
+        }
+
+        .journal-box textarea {
+            width: 100%;
+            height: 100px;
+            padding: 1rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            background: var(--bg-main);
+            margin-bottom: 1rem;
+        }
+
+        /* --- LIGHTBOX MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            max-width: 700px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 480px;
+            object-fit: contain;
+            background: #111;
+        }
+
+        .modal-caption {
+            padding: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .creator-controls { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body class="theme-sage">
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Spectrum of Self</div>
+        
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#identity">Identity</a></li>
+                <li><a href="#types-identity">Identity Types</a></li>
+                <li><a href="#expression">Self-Expression</a></li>
+                <li><a href="#types-expression">Expression Types</a></li>
+                <li><a href="#board">Board</a></li>
+            </ul>
+
+            <!-- Soft Palette Picker -->
+            <div class="theme-picker" title="Change Theme Palette">
+                <div class="theme-dot dot-sage" onclick="setTheme('sage')"></div>
+                <div class="theme-dot dot-rose" onclick="setTheme('rose')"></div>
+                <div class="theme-dot dot-lavender" onclick="setTheme('lavender')"></div>
+                <div class="theme-dot dot-peach" onclick="setTheme('peach')"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <span class="hero-tag">A Visual & Conceptual Journey</span>
+        <h1>Identity & <span>Self-Expression</span></h1>
+        <p>Identity and self-expression are two important aspects of how people understand themselves and communicate with others. They influence personality, relationships, creativity, communication, and the way individuals or groups present themselves to the world.</p>
+        
+        <!-- Interactive Artwork Gallery Preview -->
+        <div class="hero-gallery-preview" title="Click any preview to view full artwork">
+            <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.39  2.jpeg" class="hero-img-thumb" onclick="openModal(this.src, 'Personal Identity Artwork')">
+            <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40 1.jpeg" class="hero-img-thumb" onclick="openModal(this.src, 'Social & Group Identity')">
+            <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.41 2.jpeg" class="hero-img-thumb" onclick="openModal(this.src, 'Cultural Identity & Unity')">
+            <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40 11.jpeg" class="hero-img-thumb" onclick="openModal(this.src, 'Creative Impasto Expression')">
+            <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40 2.jpeg" class="hero-img-thumb" onclick="openModal(this.src, 'Verbal Pop Art Expression')">
+        </div>
+
+        <a href="#identity" class="btn">Begin Exploring</a>
+    </header>
+
+    <!-- SECTION 1: IDENTITY OVERVIEW -->
+    <section id="identity" class="container">
+        <h2 class="section-title">Understanding Identity</h2>
+        <p class="section-subtitle">Identity refers to the characteristics, values, experiences, beliefs, and qualities that define who a person or group is.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+            <div style="background: var(--bg-card); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-color);">
+                <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">What is Identity?</h3>
+                <p style="color: var(--text-secondary);">Identity is not only about a name or personal information, but also includes personality, interests, background, experiences, and social environment. It can change and develop over time as family, education, culture, and experiences shape how people understand themselves.</p>
+            </div>
+
+            <div style="background: var(--bg-card); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-color);">
+                <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Why Is Identity Important?</h3>
+                <p style="color: var(--text-secondary);">It helps people understand themselves better—recognizing strengths, values, and goals. It builds confidence in relationships, helps individuals find comfortable communities, and creates a sense of belonging and togetherness for groups working toward common goals.</p>
+            </div>
+        </div>
+
+        <!-- FACTORS SHAPING IDENTITY -->
+        <h3 style="text-align: center; font-size: 2rem; margin-top: 3rem;">Factors That Shape Identity</h3>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1.5rem;">Identity does not develop instantly. Click or hover on factors below to explore:</p>
+
+        <div class="factors-grid">
+            <div class="factor-item">
+                <h4>Family</h4>
+                <p>The first environment where people learn values, behaviors, and traditions.</p>
+            </div>
+            <div class="factor-item">
+                <h4>Social Environment</h4>
+                <p>Friends and communities that influence thoughts, attitudes, and behavior.</p>
+            </div>
+            <div class="factor-item">
+                <h4>Culture</h4>
+                <p>Provides language, heritage, custom, and foundational cultural values.</p>
+            </div>
+            <div class="factor-item">
+                <h4>Education</h4>
+                <p>Develops knowledge, critical perspectives, and ways of thinking.</p>
+            </div>
+            <div class="factor-item">
+                <h4>Life Experiences</h4>
+                <p>Key moments that evolve how people view themselves and the world.</p>
+            </div>
+            <div class="factor-item">
+                <h4>Interests & Hobbies</h4>
+                <p>Activities people enjoy that become defining parts of who they are.</p>
+            </div>
+            <div class="factor-item">
+                <h4>Digital Media</h4>
+                <p>Online platforms that influence how people construct and show identity.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: TYPES OF IDENTITY (WITH IMAGES) -->
+    <section id="types-identity" style="background: rgba(255,255,255,0.4); padding: 5rem 0; border-top: 1px solid var(--border-color);">
+        <div class="container" style="padding-top:0; padding-bottom:0;">
+            <h2 class="section-title">5 Types of Identity</h2>
+            <p class="section-subtitle">Explore how identity manifests across personal, social, cultural, group, and digital dimensions.</p>
+
+            <div class="content-grid">
+                <!-- 1. Personal Identity -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.39  2.jpeg', 'Personal Identity: Characteristics that make an individual unique.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.39  2.jpeg" alt="Personal Identity Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>1. Personal Identity</h3>
+                        <p>Refers to the characteristics that make an individual unique. It includes personality, interests, hobbies, abilities, experiences, and personal goals.</p>
+                        <div class="example-box">
+                            <strong>Example:</strong> A person known as a creative individual who enjoys reading, designing, photography, and exploring new ideas.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Social Identity -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40 1.jpeg', 'Social Identity: Shared membership in social groups.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40 1.jpeg" alt="Social Identity Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>2. Social Identity</h3>
+                        <p>Refers to the identity a person develops through their relationships and membership in social groups.</p>
+                        <div class="example-box">
+                            <strong>Example:</strong> Someone identifying as a student, organization member, community volunteer, or part of a friend group.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Cultural Identity -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.41 2.jpeg', 'Cultural Identity: Traditions, heritage, and values.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.41 2.jpeg" alt="Cultural Identity Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>3. Cultural Identity</h3>
+                        <p>Related to a person's cultural background. It includes language, traditions, food, art, customs, and cultural values.</p>
+                        <div class="example-box">
+                            <strong>Example:</strong> Speaking a regional language, celebrating traditional festivals, wearing cultural attire, or maintaining family customs.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Group Identity -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.38 2.jpeg', 'Group Identity: Shared branding, goals, and values.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.38 2.jpeg" alt="Group Identity Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>4. Group Identity</h3>
+                        <p>Characteristics shared by members of a group that create unity and distinguish them from others.</p>
+                        <div class="example-box">
+                            <strong>Example:</strong> A group of bloggers sharing a unique logo, color palette, writing style, and content theme.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Digital Identity -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.41.jpeg', 'Digital Identity: Online persona and virtual presence.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.41.jpeg" alt="Digital Identity Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>5. Digital Identity</h3>
+                        <p>How a person or group presents themselves in the digital world through websites, social media accounts, profile pictures, and online content.</p>
+                        <div class="example-box">
+                            <strong>Example:</strong> Using consistent logos, aesthetic visual styles, and tone across website and social media platforms.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: SELF-EXPRESSION OVERVIEW -->
+    <section id="expression" class="container">
+        <h2 class="section-title">Understanding Self-Expression</h2>
+        <p class="section-subtitle">Self-expression is the way people communicate their thoughts, feelings, ideas, creativity, and personality to others.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div style="background: var(--bg-card); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-color);">
+                <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">The Essence of Expression</h3>
+                <p style="color: var(--text-secondary);">Everyone has different ways of expressing themselves. Some prefer writing, while others express themselves through photography, music, fashion, design, video, or creative arts. It gives space for authentic individuality.</p>
+            </div>
+
+            <div style="background: var(--bg-card); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-color);">
+                <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Why Is It Important?</h3>
+                <p style="color: var(--text-secondary);">Self-expression builds confidence and emotional wellbeing. It allows people to feel comfortable, understood, and appreciated. In groups, diverse self-expression fosters innovation and rich creative collaboration.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: TYPES OF SELF-EXPRESSION (WITH IMAGES) -->
+    <section id="types-expression" style="background: rgba(255,255,255,0.4); padding: 5rem 0; border-top: 1px solid var(--border-color);">
+        <div class="container" style="padding-top:0; padding-bottom:0;">
+            <h2 class="section-title">6 Types of Self-Expression</h2>
+            <p class="section-subtitle">Discover the diverse mediums through which human identity communicates with the world.</p>
+
+            <div class="content-grid">
+                <!-- 1. Verbal Expression -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40 2.jpeg', 'Verbal Expression: Communicating via speech and dialogue.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40 2.jpeg" alt="Verbal Expression Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>1. Verbal Expression</h3>
+                        <p>The process of expressing thoughts and feelings through spoken communication and vocal dialogue.</p>
+                        <div class="example-box">
+                            <strong>Examples:</strong> Talking, discussing, giving presentations, storytelling, and sharing opinions.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Written Expression -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40   4.jpeg', 'Written Expression: Transforming feelings into written words.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40   4.jpeg" alt="Written Expression Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>2. Written Expression</h3>
+                        <p>Expressing inner thoughts and feelings through writing. Essential for bloggers to share personal experiences and perspectives.</p>
+                        <div class="example-box">
+                            <strong>Examples:</strong> Writing blogs, articles, poems, stories, journals, and reviews.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Visual Expression -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.38 2.jpeg', 'Visual Expression: Color, typography, and graphic aesthetics.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.38 2.jpeg" alt="Visual Expression Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>3. Visual Expression</h3>
+                        <p>Using visual elements to convey complex ideas, subtle emotions, or personality without relying entirely on words.</p>
+                        <div class="example-box">
+                            <strong>Examples:</strong> Photography, illustrations, graphic design, posters, colors, and typography.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Creative Expression -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40 11.jpeg', 'Creative Expression: Fine art and textured creation.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.40 11.jpeg" alt="Creative Expression Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>4. Creative Expression</h3>
+                        <p>Expressing oneself through imaginative artistic works and creative activities that transcend normal dialogue.</p>
+                        <div class="example-box">
+                            <strong>Examples:</strong> Drawing, oil painting, making music, creating video art, animation, and sculpture.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Fashion Expression -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.39 w.jpeg', 'Fashion Expression: Style, textures, and personal aesthetic.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.39 w.jpeg" alt="Fashion Expression Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>5. Fashion Expression</h3>
+                        <p>Communicating personality, mood, and identity through physical appearance and personal curation of style.</p>
+                        <div class="example-box">
+                            <strong>Examples:</strong> Clothing choices, colors, accessories, hairstyles, and overall silhouette.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Digital Expression -->
+                <div class="card">
+                    <div class="card-img-wrapper" onclick="openModal('gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.42 1.jpeg', 'Digital Expression: Pop art stickers and virtual media.')">
+                        <img src="gambar buat blog/WhatsApp Image 2026-09-14 at 17.15.42 1.jpeg" alt="Digital Expression Artwork">
+                        <span class="img-badge">Click to enlarge</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>6. Digital Expression</h3>
+                        <p>Expressing identity through interactive digital media, online networks, and web platforms.</p>
+                        <div class="example-box">
+                            <strong>Examples:</strong> Creating blogs, sharing photographs, making videos, designing websites, and publishing digital artwork.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAPAN REFLEKSI / INTERACTIVE REFLECTION BOARD -->
+    <section id="board" class="board-section">
+        <div class="container" style="padding-top:0; padding-bottom:0;">
+            <h2 class="section-title">Interactive Reflection Board</h2>
+            <p class="section-subtitle">Leave your own sticky note reflection below. Share how you express your identity today.</p>
+
+            <!-- Note Creator Form -->
+            <div class="note-creator">
+                <h3>Post a Note on the Reflection Wall</h3>
+                <textarea id="noteText" placeholder="Write a reflection about your identity, a creative thought, or how you like to express yourself..."></textarea>
+                
+                <div class="creator-controls">
+                    <div class="color-selector">
+                        <span>Color:</span>
+                        <div class="color-option note-bg-sage selected" onclick="selectNoteColor('sage', this)"></div>
+                        <div class="color-option note-bg-rose" onclick="selectNoteColor('rose', this)"></div>
+                        <div class="color-option note-bg-lavender" onclick="selectNoteColor('lavender', this)"></div>
+                        <div class="color-option note-bg-peach" onclick="selectNoteColor('peach', this)"></div>
+                    </div>
+
+                    <input type="text" id="noteAuthor" class="author-input" placeholder="Your name / alias">
+
+                    <button class="btn" onclick="addStickyNote()" style="padding: 0.6rem 1.5rem; font-size: 0.85rem;">Pin Note</button>
+                </div>
+            </div>
+
+            <!-- Sticky Notes Board -->
+            <div class="sticky-board" id="stickyBoard">
+                <div class="sticky-note note-bg-sage">
+                    <div class="note-content">"Identity isn't a fixed sculpture; it's a painting that updates every single morning."</div>
+                    <div class="note-footer">
+                        <span>— Maya</span>
+                        <button class="like-btn" onclick="toggleLike(this)">♥ <span class="like-count">24</span></button>
+                    </div>
+                </div>
+
+                <div class="sticky-note note-bg-rose">
+                    <div class="note-content">"Fashion became my silent voice when I was too shy to speak up in crowds."</div>
+                    <div class="note-footer">
+                        <span>— Julian</span>
+                        <button class="like-btn" onclick="toggleLike(this)">♥ <span class="like-count">17</span></button>
+                    </div>
+                </div>
+
+                <div class="sticky-note note-bg-lavender">
+                    <div class="note-content">"Writing blog posts helped me connect with people across the world who shared my passions."</div>
+                    <div class="note-footer">
+                        <span>— Creative Blogger</span>
+                        <button class="like-btn" onclick="toggleLike(this)">♥ <span class="like-count">31</span></button>
+                    </div>
+                </div>
+
+                <div class="sticky-note note-bg-peach">
+                    <div class="note-content">"Digital identity lets us curate our aesthetics, but authentic personal identity starts within."</div>
+                    <div class="note-footer">
+                        <span>— Alex</span>
+                        <button class="like-btn" onclick="toggleLike(this)">♥ <span class="like-count">19</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JOURNAL & PROMPT GENERATOR -->
+    <section class="container">
+        <div class="interactive-section">
+            <h2 class="section-title">Personal Reflection Journal</h2>
+            <p style="color: var(--text-secondary);">Click for a new prompt, reflect on your identity, and copy your answer.</p>
+
+            <div class="prompt-box">
+                <p class="prompt-text" id="promptText">"What form of self-expression brings you the greatest sense of peace?"</p>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <button class="btn btn-outline" onclick="generatePrompt()">Generate Prompt</button>
+            </div>
+
+            <div class="journal-box">
+                <textarea id="userResponse" placeholder="Type your personal reflection thoughts here..."></textarea>
+                <div style="display: flex; justify-content: center; gap: 1rem;">
+                    <button class="btn" onclick="copyReflection()">Copy Reflection</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMAGE LIGHTBOX MODAL -->
+    <div class="modal-overlay" id="imageModal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img src="" id="modalImg" class="modal-img" alt="Enlarged view">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Identity & Self-Expression Web Canvas. All soft aesthetics and interactive elements designed with care.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // 1. THEME SWITCHER
+        function setTheme(theme) {
+            document.body.className = '';
+            document.body.classList.add('theme-' + theme);
+        }
+
+        // 2. LIGHTBOX MODAL FOR ARTWORKS
+        function openModal(src, caption) {
+            const modal = document.getElementById('imageModal');
+            document.getElementById('modalImg').src = src;
+            document.getElementById('modalCaption').textContent = caption;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('active');
+        }
+
+        // 3. STICKY NOTE BOARD LOGIC
+        let selectedColorClass = 'note-bg-sage';
+
+        function selectNoteColor(color, el) {
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedColorClass = 'note-bg-' + color;
+        }
+
+        function addStickyNote() {
+            const textInput = document.getElementById('noteText');
+            const authorInput = document.getElementById('noteAuthor');
+            
+            const text = textInput.value.trim();
+            const author = authorInput.value.trim() || 'Anonymous';
+
+            if (!text) {
+                alert('Please write a message before posting!');
+                return;
+            }
+
+            const board = document.getElementById('stickyBoard');
+            const newNote = document.createElement('div');
+            newNote.className = `sticky-note ${selectedColorClass}`;
+            
+            newNote.innerHTML = `
+                <div class="note-content">"${escapeHtml(text)}"</div>
+                <div class="note-footer">
+                    <span>— ${escapeHtml(author)}</span>
+                    <button class="like-btn" onclick="toggleLike(this)">♥ <span class="like-count">0</span></button>
+                </div>
+            `;
+
+            board.prepend(newNote);
+            textInput.value = '';
+            authorInput.value = '';
+        }
+
+        function toggleLike(btn) {
+            btn.classList.toggle('liked');
+            const countSpan = btn.querySelector('.like-count');
+            let currentCount = parseInt(countSpan.textContent);
+            
+            if (btn.classList.contains('liked')) {
+                countSpan.textContent = currentCount + 1;
+            } else {
+                countSpan.textContent = currentCount - 1;
+            }
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // 4. JOURNAL PROMPT GENERATOR
+        const prompts = [
+            "\"What form of self-expression brings you the greatest sense of peace?\"",
+            "\"How has your identity changed or developed over the past few years?\"",
+            "\"In what ways does your physical environment or style reflect your internal values?\"",
+            "\"What factor (family, culture, hobbies, social media) has shaped you the most?\"",
+            "\"If you could create a piece of art representing your digital identity, what would it look like?\"",
+            "\"What makes your personal identity distinct from your group identity?\""
+        ];
+
+        function generatePrompt() {
+            const promptElement = document.getElementById('promptText');
+            const randomIndex = Math.floor(Math.random() * prompts.length);
+            
+            promptElement.style.opacity = '0';
+            setTimeout(() => {
+                promptElement.textContent = prompts[randomIndex];
+                promptElement.style.opacity = '1';
+            }, 200);
+        }
+
+        function copyReflection() {
+            const prompt = document.getElementById('promptText').textContent;
+            const response = document.getElementById('userResponse').value.trim();
+
+            if (!response) {
+                alert('Please write a response first!');
+                return;
+            }
+
+            const fullText = `Prompt: ${prompt}\n\nMy Reflection:\n${response}`;
+            navigator.clipboard.writeText(fullText).then(() => {
+                alert('Reflection copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>
